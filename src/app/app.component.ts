@@ -19,7 +19,7 @@ import { map } from 'rxjs/operators';
 export class AppComponent {
 
   form: FormGroup;
-  form1:FormGroup;
+  form1: FormGroup;
 
   showResults: any[];
 
@@ -62,7 +62,7 @@ export class AppComponent {
 
 
   private addCheckboxes() {
-    this.uniqueEmp = this.getUnique(this.employees, 'Country');
+    this.uniqueEmp = this.getUnique(this.showResults, 'Country');
     this.uniqueEmp.forEach((o, i) => {
       const control = new FormControl();
       control.setValue(true);
@@ -71,7 +71,7 @@ export class AppComponent {
   }
 
   private addCheckboxes1() {
-    this.uniqueEmp1 = this.getUnique(this.employees, 'City');
+    this.uniqueEmp1 = this.getUnique(this.showResults, 'City');
     this.uniqueEmp1.forEach((o, i) => {
       const control = new FormControl();
       control.setValue(true);
@@ -98,8 +98,7 @@ export class AppComponent {
     const selectedOrderIds = this.form.value.orders
       .map((v, i) => (v ? this.uniqueEmp[i].Country : null))
       .filter(v => v !== null);
-    const emplList = this.employees;
-    this.showResults = emplList.filter((v, idx) => {
+    this.showResults = this.employees.filter((v, idx) => {
       return selectedOrderIds.includes(v.Country);
     });
   }
@@ -108,9 +107,7 @@ export class AppComponent {
     const selectedOrderIds = this.form1.value.orders1
       .map((v, i) => (v ? this.uniqueEmp1[i].City : null))
       .filter(v => v !== null);
-      console.log(selectedOrderIds);
-    const emplList = this.employees;
-    this.showResults = emplList.filter((v, idx) => {
+    this.showResults = this.employees.filter((v, idx) => {
       return selectedOrderIds.includes(v.City);
     });
   }
@@ -147,30 +144,22 @@ export class AppComponent {
   minSelectedCheckboxes(min = 1) {
     const validator: ValidatorFn = (formArray: FormArray) => {
       const totalSelected = formArray.controls
-        // get a list of checkbox values (boolean)
         .map(control => control.value)
-        // total up the number of checked checkboxes
         .reduce((prev, next) => next ? prev + next : prev, 0);
-  
-      // if the total is not greater than the minimum, return the error message
       return totalSelected >= min ? null : { required: true };
     };
-  
+
     return validator;
   }
 
   minSelectedCheckboxes1(min = 1) {
     const validator: ValidatorFn = (formArray: FormArray) => {
       const totalSelected = formArray.controls
-        // get a list of checkbox values (boolean)
         .map(control => control.value)
-        // total up the number of checked checkboxes
         .reduce((prev, next) => next ? prev + next : prev, 0);
-  
-      // if the total is not greater than the minimum, return the error message
       return totalSelected >= min ? null : { required: true };
     };
-  
+
     return validator;
   }
 
