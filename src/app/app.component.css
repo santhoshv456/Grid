@@ -1,0 +1,20 @@
+.changeType {
+        background: #eee;
+        border-radius: 2px;
+        border: 1px solid #bbb;
+        color: #bbb;
+        font-size: 10px;
+        line-height: 9px;
+        padding: 4px;
+        float: right;
+    }
+
+        .changeType:before {
+            content: "\25BC ";
+        }
+
+
+a:hover {
+ cursor:pointer;
+}
+        
