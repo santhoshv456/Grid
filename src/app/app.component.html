@@ -1,122 +1,64 @@
-<div class="container" style="margin-top:40px;">
-  <div class="row">
-      <!-- {{error}} -->
-      <div class="col-md-6">
-          <table class="table table-bordered table-condensed" >
-              <thead>
-                  <tr>
-                      <th>Country 
-                    <div class="dropdown" (click)="$event.stopPropagation()" style="float: right" dropdown>
-                        <button id="btnSearchBatch" dropdownToggle class="changeType dropdown-toggle" type="button" data-toggle="dropdown"></button>
-                        <div class="dropdown-menu prop"  *dropdownMenu aria-labelledby="btnSearchBatch" style="width: 250px; padding: 15px;">
-                            <div class="col-md-12" style="padding: 0;">
-                                <table style="width:100%">
-                                    <tr>
-                                        <th style="text-align: left">
-                                            <form  [formGroup]="form" (ngSubmit)="submit()" > 
-                                                Filter by value
-                                                <input id="txtSearch" type="text" class="form-control input-sm" [(ngModel)]="term" [ngModelOptions]="{standalone: true}" placeholder="Search" />
-                                                <div class="row">
-                                                    <div class="col-md-offset-6 col-md-6">
-                                                        <div class="row">
-                                                            <div class="col-md-6" style="padding: 5px 0 0 0"><a (click)="selectAll()" style="font-size:12px">Select All</a></div>
-                                                            <div class="col-md-6" style="padding: 5px 15px 0 5px">
-                                                                <a (click)="clear()" style="font-size:12px">Clear</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row" style="border-bottom: 1px dotted #ccc!important;">
-                                                    <div class="col-md-12">
-                                                        <div style="height: 150px; overflow-y: scroll; width: 100%;">
-                                                            <ul style="list-style-type: none; padding: 0">
-                                                                <li formArrayName="orders" *ngFor="let emp of uniqueEmp | filter:term ; let i = index">
-                                                                    <input type="checkbox" [formControlName]="i" />
-                                                                    <label>{{emp.Country}}</label>
-                                                                </li>
-                                                                <!-- <li *ngFor="let emp of employees | unique:'Country'">
-                                                                    <input type="checkbox" [formControlName]="i" /> <label>{{emp.Country}}</label>
-                                                                </li> -->
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row" style="margin-top: 8px;">
-                                                    <div class="col-md-12" style="text-align: center">
-                                                        <input id="btnOk" type="submit" [disabled]="!form.valid" value="Ok" class="btn btn-success btn-sm" style="background-color: #0f9d58; border-color: #18804e; color: #fff; padding: 3px; width: 60px;" />
-                                                        <input id="btnCancel" type="button" value="Cancel" class="btn btn-default btn-sm" style="padding: 3px; width: 60px;" />
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </th>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div></th>
-                      <th>City
-                        
-                      </th>
-                      <th>Name 
-                        <div class="dropdown" (click)="$event.stopPropagation()" style="float: right" dropdown>
-                            <button id="btnSearchBatch" dropdownToggle class="changeType dropdown-toggle" type="button" data-toggle="dropdown"></button>
-                            <div class="dropdown-menu prop"  *dropdownMenu aria-labelledby="btnSearchBatch" style="width: 250px; padding: 15px;">
-                                <div class="col-md-12" style="padding: 0;">
-                                    <table style="width:100%">
-                                        <tr>
-                                            <th style="text-align: left">
-                                                <form  [formGroup]="form1" (ngSubmit)="submit1()" > 
-                                                    Filter by value
-                                                    <input id="txtSearch" type="text" class="form-control input-sm" [(ngModel)]="term" [ngModelOptions]="{standalone: true}" placeholder="Search" />
-                                                    <div class="row">
-                                                        <div class="col-md-offset-6 col-md-6">
-                                                            <div class="row">
-                                                                <div class="col-md-6" style="padding: 5px 0 0 0"><a (click)="selectAll1()" style="font-size:12px">Select All</a></div>
-                                                                <div class="col-md-6" style="padding: 5px 15px 0 5px">
-                                                                    <a (click)="clear1()" style="font-size:12px">Clear</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row" style="border-bottom: 1px dotted #ccc!important;">
-                                                        <div class="col-md-12">
-                                                            <div style="height: 150px; overflow-y: scroll; width: 100%;">
-                                                                <ul style="list-style-type: none; padding: 0">
-                                                                    <li formArrayName="orders1" *ngFor="let emp of uniqueEmp1 | filter:term ; let i = index">
-                                                                        <input type="checkbox" [formControlName]="i" />
-                                                                        <label>{{emp.City}}</label>
-                                                                    </li>
-                                                                    <!-- <li *ngFor="let emp of employees | unique:'Country'">
-                                                                        <input type="checkbox" [formControlName]="i" /> <label>{{emp.Country}}</label>
-                                                                    </li> -->
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row" style="margin-top: 8px;">
-                                                        <div class="col-md-12" style="text-align: center">
-                                                            <input id="btnOk" type="submit" [disabled]="!form1.valid" value="Ok" class="btn btn-success btn-sm" style="background-color: #0f9d58; border-color: #18804e; color: #fff; padding: 3px; width: 60px;" />
-                                                            <input id="btnCancel" type="button" value="Cancel" class="btn btn-default btn-sm" style="padding: 3px; width: 60px;" />
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </th>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                      </th>
-                  </tr>
-              </thead>
-              <tbody >
-                  <tr *ngFor="let emp of showResults">
-                       <td>{{emp.Country}}</td>
-                       <td>{{emp.Name}}</td>
-                       <td>{{emp.City}}</td>
-                  </tr>
-              </tbody>
-          </table>
-      </div>
+<div class="col-md-6">
+    <table class="table table-bordered table-condensed">
+      <thead>
+        <tr>
+          <th>Country
+            <div class="dropdown" (click)="$event.stopPropagation()" style="float: right" dropdown>
+              <button id="btnSearchBatch" dropdownToggle class="changeType dropdown-toggle" type="button" data-toggle="dropdown"></button>
+              <div class="dropdown-menu prop" *dropdownMenu aria-labelledby="btnSearchBatch" style="width: 250px; padding: 15px;">
+                <div class="text-right">
+                  <a href="#" class="filterlink" (click)="clearAll('Country')">Clear All</a> | <a href="#" class="filterlink" data-dismiss="modal">Close(X)</a>
+                </div>
+                <form>
+                  <input type="text" name="text" class="form-control input-sm" [(ngModel)]="XLfilters.dict['Country'].searchText" placeholder="Filter by Country" />
+                  <div>
+                    <a href="#" class="filterlink" (click)="markAll('Country',true)">Select All</a> | <a href="#" class="filterlink" (click)="markAll('Country',false)">Select None</a>
+                  </div>
+                  <div class="options">
+                    <ul style="list-style-type: none; padding: 0">
+                      <li *ngFor="let item of itemFilter('Country') ; let i = index">
+                        <input name="countryOption" id="countryOption{{i}}" type="checkbox" [(ngModel)]="XLfilters.dict['Country'].dict[item.name].checked" />&nbsp;<label for="countryOption{{i}}">{{item.name}}</label>
+                      </li>
+                    </ul>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </th>
+          <th>City
+            <div class="dropdown" (click)="$event.stopPropagation()" style="float: right" dropdown>
+              <button id="btnSearchBatch" dropdownToggle class="changeType dropdown-toggle" type="button" data-toggle="dropdown"></button>
+              <div class="dropdown-menu prop" *dropdownMenu aria-labelledby="btnSearchBatch" style="width: 250px; padding: 15px;">
+               <div class="text-right">
+                 <a href="#" class="filterlink" (click)="clearAll('City')">Clear All</a> | <a href="#" class="filterlink" data-dismiss="modal">Close(X)</a>
+               </div>
+               <form>
+                  <input type="text" name="text" class="form-control input-sm" [(ngModel)]="XLfilters.dict['City'].searchText" placeholder="Filter by City" />
+                  <div>
+                    <a href="#" class="filterlink" (click)="markAll('City',true)">Select All</a> | <a href="#" class="filterlink" (click)="markAll('City',false)">Select None</a>
+                  </div>
+                  <div class="options">
+                    <ul style="list-style-type: none; padding: 0">
+                      <li *ngFor="let item of itemFilter('City'); let i = index">
+                        <input name="cityOption" id="cityOption{{i}}" type="checkbox" [(ngModel)]="XLfilters.dict['City'].dict[item.name].checked" />&nbsp;<label for="cityOption{{i}}">{{item.name}}</label>
+                      </li>
+                    </ul>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </th>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let emp of employees">
+          <ng-container  *ngIf="rowFilter(emp)">
+            <td>{{emp.Country}}</td>
+            <td>{{emp.City}}</td>
+            <td>{{emp.Name}}</td>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
   </div>
-</div>

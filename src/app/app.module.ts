@@ -7,17 +7,19 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule,ReactiveFormsModule  } from '@angular/forms';
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { Rowfilter } from './Row-filter';
+// import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+     Rowfilter
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    Ng2SearchPipeModule,
+    // Ng2SearchPipeModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     BsDropdownModule.forRoot()

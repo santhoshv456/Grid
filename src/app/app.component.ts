@@ -1,4 +1,5 @@
 import { Component, HostListener, HostBinding  } from '@angular/core';
+import { Rowfilter } from './Row-filter';
 
 import {
   FormBuilder,
@@ -17,150 +18,120 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  XLfilters = { list: [], dict: {}, results: [] };
 
-  form: FormGroup;
-  form1: FormGroup;
+  employees = [{
+    Name: 'Manirul Monir',
+    City: 'Sylhet',
+    Country: 'Bangladesh'
+  }, {
+    Name: 'Arup',
+    City: 'Sylhet',
+    Country: 'Bangladesh'
+  }, {
+    Name: 'Person 1',
+    City: 'Dhaka',
+    Country: 'Bangladesh'
+  }, {
+    Name: 'Person 2',
+    City: 'Dhaka',
+    Country: 'Bangladesh'
+  }, {
+    Name: 'Munim Munna',
+    City: 'Narshingdi',
+    Country: 'Bangladesh'
+  }, {
+    Name: 'Mahfuz Ahmed',
+    City: 'Narshingdi',
+    Country: 'Bangladesh'
+  }, {
+    Name: 'Tawkir Ahmed',
+    City: 'Gazipur',
+    Country: 'Bangladesh'
+  }, {
+    Name: 'Alfreds 2',
+    City: 'Berlin',
+    Country: 'Germany'
+  }, {
+    Name: 'Alfreds Futterkiste',
+    City: 'Berlin',
+    Country: 'Germany'
+  }, {
+    Name: 'Blauer See Delikatessen',
+    City: 'Mannheim',
+    Country: 'Germany'
+  }, {
+    Name: 'Blondel père et fils',
+    City: 'Strasbourg',
+    Country: 'France'
+  }, {
+    Name: 'Bon app\'',
+    City: 'Marseille',
+    Country: 'France'
+  }, {
+    Name: 'Centro comercial Moctezuma',
+    City: 'México D.F.',
+    Country: 'France'
+  }];
 
-  showResults: any[];
-
-  uniqueEmp: any[];
-  uniqueEmp1: any[];
-
-  employees: any[] = [
-    { Name: 'Alfreds Futterkiste', City: 'Berlin', Country: 'Germany' },
-    { Name: 'Berglunds snabbköp', City: 'Luleå', Country: 'Sweden' },
-    { Name: 'Blauer See Delikatessen', City: 'Mannheim', Country: 'Germany' },
-    { Name: 'Blondel père et fils', City: 'Strasbourg', Country: 'France' },
-    { Name: 'Bólido Comidas preparadas', City: 'Madrid', Country: 'Spain' },
-    { Name: 'Bon app', City: 'Marseille', Country: 'France' },
-    { Name: 'Bottom-Dollar Marketse', City: 'Tsawassen', Country: 'Canada' },
-    { Name: 'Cactus Comidas para llevar', City: 'Buenos Aires', Country: 'Argentina' },
-    { Name: 'Centro comercial Moctezuma', City: 'México D.F.', Country: 'France' },
-    { Name: 'Chop-suey Chinese', City: 'Bern', Country: 'Switzerland' },
-    { Name: 'Comércio Mineiro', City: 'São Paulo', Country: 'Canada' }];
-
-
-  checkBoxValue: any = false;
-
-  term: any;
-
-  countrySet: any[];
-
-  constructor(private formBuilder: FormBuilder) {
-    this.showResults = this.employees;
-    this.form = this.formBuilder.group({
-      orders: new FormArray([], this.minSelectedCheckboxes(1))
-    });
-
-    this.form1 = this.formBuilder.group({
-      orders1: new FormArray([], this.minSelectedCheckboxes1(1))
-    });
-
-    this.addCheckboxes();
-    this.addCheckboxes1();
+  constructor() {
+    this.createXLfilter(this.employees, ['Country', 'City']);
   }
 
-
-  private addCheckboxes() {
-    this.uniqueEmp = this.getUnique(this.showResults, 'Country');
-    this.uniqueEmp.forEach((o, i) => {
-      const control = new FormControl();
-      control.setValue(true);
-      (this.form.controls.orders as FormArray).push(control);
-    });
-  }
-
-  private addCheckboxes1() {
-    this.uniqueEmp1 = this.getUnique(this.showResults, 'City');
-    this.uniqueEmp1.forEach((o, i) => {
-      const control = new FormControl();
-      control.setValue(true);
-      (this.form1.controls.orders1 as FormArray).push(control);
-    });
-  }
-
-
-  getUnique(value: any, args?: any): any {
-    const o: any = {};
-    const l = value.length;
-    const r = [];
-    for (let i = 0; i < l; i += 1) {
-      o[value[i][args]] = value[i];
+    markAll(field, b) {
+      this.XLfilters.dict[field].list.forEach((x) => {x.checked = b; });
     }
-    // tslint:disable-next-line: forin
-    for (const i in o) {
-      r.push(o[i]);
+
+    clearAll(field) {
+      this.XLfilters.dict[field].searchText = '';
+      this.XLfilters.dict[field].list.forEach((x) => {x.checked = true; });
     }
-    return r;
-  }
 
-  submit() {
-    const selectedOrderIds = this.form.value.orders
-      .map((v, i) => (v ? this.uniqueEmp[i].Country : null))
-      .filter(v => v !== null);
-    this.showResults = this.employees.filter((v, idx) => {
-      return selectedOrderIds.includes(v.Country);
-    });
-  }
+    categorize(arr, field) {
+      const o = {};
+      const  r = [];
+      const l = arr.length;
+      for (let i = 0; i < l; i += 1) {
+        if (o[arr[i][field]]) { continue; }
+        const oo = {name: arr[i][field], checked: true};
+        o[arr[i][field]] = oo;
+        r.push(oo);
+      }
+      return {
+        list: r,
+        dict: o
+      };
+    }
 
-  submit1() {
-    const selectedOrderIds = this.form1.value.orders1
-      .map((v, i) => (v ? this.uniqueEmp1[i].City : null))
-      .filter(v => v !== null);
-    this.showResults = this.employees.filter((v, idx) => {
-      return selectedOrderIds.includes(v.City);
-    });
-  }
+    itemFilter(field) {
+      const xfilter = this.XLfilters.dict[field];
+      console.log(xfilter);
+      if (xfilter.searchText.length === 0) { return xfilter.list; }
+      const rxp = new RegExp(xfilter.searchText, 'i');
+      return xfilter.list.filter( (item) => {
+        return item.name.match(rxp);
+      });
+    }
 
+    rowFilter(item) {
+      const visible = true;
+      for (let cat, i = 0, l = this.XLfilters.list.length; i < l ; i++) {
+        cat = this.XLfilters.list[i];
+        if (!cat.dict[item[cat.field]].checked) { return false; }
+        if (cat.searchText.length) {
+          if (!item[cat.field].match(new RegExp(cat.searchText , 'i'))) { return false; }
+        }
+      }
+      return true;
+    }
 
-  selectAll() {
-    // tslint:disable-next-line: no-string-literal
-    this.form.get('orders')['controls'].map(control => {
-      control.setValue(true);
-    });
-  }
-
-  selectAll1() {
-    // tslint:disable-next-line: no-string-literal
-    this.form1.get('orders1')['controls'].map(control => {
-      control.setValue(true);
-    });
-  }
-
-  clear() {
-    // tslint:disable-next-line: no-string-literal
-    this.form.get('orders')['controls'].map(control => {
-      control.setValue(false);
-    });
-  }
-
-  clear1() {
-    // tslint:disable-next-line: no-string-literal
-    this.form1.get('orders1')['controls'].map(control => {
-      control.setValue(false);
-    });
-  }
-
-  minSelectedCheckboxes(min = 1) {
-    const validator: ValidatorFn = (formArray: FormArray) => {
-      const totalSelected = formArray.controls
-        .map(control => control.value)
-        .reduce((prev, next) => next ? prev + next : prev, 0);
-      return totalSelected >= min ? null : { required: true };
-    };
-
-    return validator;
-  }
-
-  minSelectedCheckboxes1(min = 1) {
-    const validator: ValidatorFn = (formArray: FormArray) => {
-      const totalSelected = formArray.controls
-        .map(control => control.value)
-        .reduce((prev, next) => next ? prev + next : prev, 0);
-      return totalSelected >= min ? null : { required: true };
-    };
-
-    return validator;
-  }
-
+    createXLfilter(arr, fields) {
+      for (let j = 0; j < fields.length; j++) { this.XLfilters.list.push(this.XLfilters.dict[fields[j]] = {list: [], dict: {}, field: fields[j], searchText:'', active: false, options: []}); }
+      for (let i = 0, z; i < arr.length; i++) {
+      for (let j = 0; j < fields.length; j++) {
+      z = this.XLfilters.dict[fields[j]];
+      z.dict[arr[i][fields[j]]] || z.list.push(z.dict[arr[i][fields[j]]] = {name: arr[i][fields[j]], checked: true, visible: false, match: false});
+      }
+      }
+    }
 }
